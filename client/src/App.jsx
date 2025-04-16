@@ -3,7 +3,7 @@ import "./App.css";
 import ToDo from "./components/ToDo";
 import axios from "axios";
 import { baseURL } from "./utils/constant";
-import Popup from "./components/popup";
+import Popup from "./components/Popup";
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
