@@ -1,6 +1,8 @@
+if (process.env.NODE_ENV != "productions") {
+  require('dotenv').config()
+};
 const express = require("express");
 const mongoose = require("mongoose");
-require("dotenv").config();
 
 const cors = require("cors");
 const routes = require("./routes/todoRoutes");
