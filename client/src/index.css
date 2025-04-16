@@ -29,12 +29,31 @@ body {
   justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  position: relative;
   background-image: url("https://img.freepik.com/premium-photo/there-are-two-blank-notes-pinned-wooden-frame-surrounded-by-autumn-leaves_1034560-106170.jpg?ga=GA1.1.1260258448.1741171183&semt=ais_hybrid");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
 }
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  z-index: 0;
+}
+
+/* Make sure your actual content is above the overlay */
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+
 
 h1 {
   font-size: 3.2em;

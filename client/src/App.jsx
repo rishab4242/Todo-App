@@ -35,9 +35,9 @@ const App = () => {
   };
 
   return (
-    <main>
+    <main >
       <div className="container">
-        <div style={{ textAlign: "center", marginBottom: "20px" }}>
+        <div style={{ textAlign: "center", marginBottom: "20px" }} className="">
           <h1 style={{ fontSize: "45px", color: "#fff", fontWeight: "bold" }}>
             Todo App
           </h1>
