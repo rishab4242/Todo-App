@@ -1,11 +1,12 @@
 {
+  "proxy": "https://todo-app-backend-nw7a.onrender.com",
   "name": "client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "react-scripts build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
