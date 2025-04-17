@@ -15,7 +15,7 @@ const App = () => {
     axios
       .get(`${baseURL}/get`) // Get all todos
       .then((res) => {
-        console.log("Fetched Todos:", res.data); // Debugging
+        // console.log("Fetched Todos:", res.data); // Debugging
         setTodos(res.data);
       })
       .catch((err) => console.error("Error fetching todos:", err));
