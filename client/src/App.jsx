@@ -35,56 +35,31 @@ const App = () => {
   };
 
   return (
-    <main >
-      <div className="container">
-        <div style={{ textAlign: "center", marginBottom: "20px" }} className="">
-          <h1 style={{ fontSize: "45px", color: "#fff", fontWeight: "bold" }}>
+    <main className="min-h-screen  flex items-start  justify-center md:p-4">
+      <div className="w-full max-w-2xl mx-auto mt-8">
+        <div className="text-center mb-6">
+          <h1 className="text-4xl sm:text-5xl text-white font-bold">
             Todo App
           </h1>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "10px",
-            marginBottom: "20px",
-          }}
-        >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 ">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             type="text"
             placeholder="Add a Todo..."
-            style={{
-              width: "250px",
-              padding: "10px",
-              border: "1px solid #ddd",
-              borderRadius: "6px",
-              fontSize: "16px",
-              outline: "none",
-              transition: "0.3s",
-            }}
+            className="w-full sm:w-[250px] max-sm:w-[320px] px-4 py-2 border border-gray-300 rounded-md text-base outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
           />
           <button
             onClick={saveTodo}
-            style={{
-              background: "#007bff",
-              color: "white",
-              padding: "10px 15px",
-              fontSize: "16px",
-              border: "none",
-              borderRadius: "6px",
-              cursor: "pointer",
-              transition: "0.3s",
-            }}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md text-base transition duration-300 w-full sm:w-auto"
           >
             Add Todo
           </button>
         </div>
 
-        <div className="list">
+        <div className="space-y-4 max-w-sm m-auto">
           {todos.map((el) => (
             <ToDo
               {...el}
@@ -98,6 +73,7 @@ const App = () => {
           ))}
         </div>
       </div>
+
       {showpopup && (
         <Popup
           setShowpopup={setShowpopup}

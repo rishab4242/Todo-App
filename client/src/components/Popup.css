@@ -25,6 +25,14 @@
     animation: fadeIn 0.3s ease-in-out;
 }
 
+@media (max-width: 480px) {
+    .popup {
+        width: 90%;
+        padding: 16px;
+    }
+}
+
+
 /* Header styling */
 .popup-header {
     display: flex;
