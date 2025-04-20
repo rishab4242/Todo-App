@@ -1,9 +1,8 @@
 const TodoModel = require("../models/TodoModel");
 
 module.exports.getTodos = async (req, res) => {
-  const { user } = req.query; // user query se aayega
   try {
-    const todos = await TodoModel.find(user); // Fetch all todos including completed status
+    const todos = await TodoModel.find(); // Fetch all todos including completed status
     res.json(todos);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch todos" });
@@ -11,9 +10,9 @@ module.exports.getTodos = async (req, res) => {
 };
 
 module.exports.saveToDo = (req, res) => {
-  const { todo, user } = req.body;
+  const { todo } = req.body;
 
-  TodoModel.create({ todo, user })
+  TodoModel.create({ todo })
     .then((data) => {
       res.status(201).send(data);
     })

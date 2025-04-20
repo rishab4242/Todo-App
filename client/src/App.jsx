@@ -9,14 +9,11 @@ const App = () => {
   const [input, setInput] = useState("");
   const [updateUI, setUpdateUI] = useState(false);
   const [showpopup, setShowpopup] = useState(false);
-  const user = "user1"
   const [popupData, setPopupData] = useState({});
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/get`, {
-        params: { user }
-      }) // Get all todos
+      .get(`${baseURL}/get`) // Get all todos
       .then((res) => {
         // console.log("Fetched Todos:", res.data); // Debugging
         setTodos(res.data);
@@ -26,7 +23,7 @@ const App = () => {
 
   const saveTodo = () => {
     axios
-      .post(`${baseURL}/save`, { todo: input, user })
+      .post(`${baseURL}/save`, { todo: input })
       .then((res) => {
         console.log(res.data);
         setUpdateUI((prevState) => !prevState);
