@@ -2,7 +2,6 @@ const User = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const SECRET_KEY = "mysecretkey"; // You can move this to .env
 
 // Signup
 exports.signup = async (req, res) => {
@@ -39,7 +38,7 @@ exports.login = async (req, res) => {
     if (!isMatch)
       return res.status(401).json({ message: "Invalid credentials" });
 
-    const token = jwt.sign({ userId: user._id }, SECRET_KEY, {
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
       expiresIn: "1h",
     });
     res.json({ token });
