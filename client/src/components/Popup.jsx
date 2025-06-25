@@ -8,17 +8,26 @@ const Popup = ({ setShowpopup, popupData, setUpdateUI }) => {
   const [input, setInput] = useState(popupData?.todo || ""); // Ensure it's never undefined
 
   const updateTodo = () => {
+    const token = localStorage.getItem("token"); // ✅ Get token from storage
+
     axios
-      .put(`${baseURL}/update/${popupData.id}`, {
-        todo: input,
-        completed: popupData.completed || false,
-      })
+      .put(
+        `${baseURL}/update/${popupData.id}`,
+        {
+          todo: input,
+          completed: popupData.completed || false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,// ✅ Send token in headers
+          },
+        }
+      )
       .then((res) => {
-        console.log(res.data.message);
         setUpdateUI((prevState) => !prevState);
         setShowpopup(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("Popup update error:", err));
   };
 
   return (

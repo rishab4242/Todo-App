@@ -1,88 +1,75 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
-import ToDo from "./components/ToDo";
-import axios from "axios";
-import { baseURL } from "./utils/constant";
-import Popup from "./components/Popup";
-const App = () => {
-  const [todos, setTodos] = useState([]);
-  const [input, setInput] = useState("");
-  const [updateUI, setUpdateUI] = useState(false);
-  const [showpopup, setShowpopup] = useState(false);
-  const [popupData, setPopupData] = useState({});
+import { isTokenExpired } from "./utils/checkToken";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import TodoPage from "./pages/TodoPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(null); // Start with null (unknown)
 
   useEffect(() => {
-    axios
-      .get(`${baseURL}/get`) // Get all todos
-      .then((res) => {
-        // console.log("Fetched Todos:", res.data); // Debugging
-        setTodos(res.data);
-      })
-      .catch((err) => console.error("Error fetching todos:", err));
-  }, [updateUI]); // Depend on updateUI to refetch data
+    const token = localStorage.getItem("token");
 
-  const saveTodo = () => {
-    axios
-      .post(`${baseURL}/save`, { todo: input })
-      .then((res) => {
-        console.log(res.data);
-        setUpdateUI((prevState) => !prevState);
-        setInput("");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+    if (token && isTokenExpired(token)) {
+      localStorage.removeItem("token");
+      setIsLoggedIn(false);
+    } else {
+      setIsLoggedIn(!!token);
+    }
+  }, []);
+
+  // 🟡 Wait until we know whether user is logged in or not
+  if (isLoggedIn === null) return null;
 
   return (
-    <main className="min-h-screen  flex items-start  justify-center md:p-4">
-      <div className="w-full max-w-2xl mx-auto mt-8">
-        <div className="text-center mb-6">
-          <h1 className="text-4xl sm:text-5xl text-white font-bold">
-            Todo App
-          </h1>
-        </div>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 ">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            type="text"
-            placeholder="Add a Todo..."
-            className="w-full sm:w-[250px] max-sm:w-[320px] px-4 py-2 border border-gray-300 rounded-md text-base outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
-          />
-          <button
-            onClick={saveTodo}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md text-base transition duration-300 w-full sm:w-auto"
-          >
-            Add Todo
-          </button>
-        </div>
-
-        <div className="space-y-4 max-w-sm m-auto">
-          {todos.map((el) => (
-            <ToDo
-              {...el}
-              key={el._id}
-              todo={el.todo}
-              id={el._id}
-              setUpdateUI={setUpdateUI}
-              setShowpopup={setShowpopup}
-              setPopupData={setPopupData}
-            />
-          ))}
-        </div>
-      </div>
-
-      {showpopup && (
-        <Popup
-          setShowpopup={setShowpopup}
-          popupData={popupData}
-          setUpdateUI={setUpdateUI}
+    <Router>
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Routes>
+        <Route
+          path="/"
+          element={isLoggedIn ? <TodoPage /> : <Navigate to="/login" />}
         />
-      )}
-    </main>
+        <Route
+          path="/login"
+          element={
+            isLoggedIn ? (
+              <Navigate to="/" />
+            ) : (
+              <Login setIsLoggedIn={setIsLoggedIn} />
+            )
+          }
+        />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+
+      {/* Toast Container for notifications */}
+      <ToastContainer
+        position="top-center" // Center position
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        style={{
+          fontSize: "16px",
+          fontWeight: "bold",
+        }}
+      />
+    </Router>
   );
-};
+}
 
 export default App;

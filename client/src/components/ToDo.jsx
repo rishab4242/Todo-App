@@ -17,15 +17,23 @@ const ToDo = ({
 
   // ✅ Sync state when `completed` prop changes
   useEffect(() => {
-    setIsCompleted(completed ?? false); // Ensures `false` if `completed` is `undefined`
+    setIsCompleted(completed ?? false);
   }, [completed]);
 
   // ✅ Toggle Task Completion
   const markAsDone = () => {
+    const token = localStorage.getItem("token");
     axios
-      .put(`${baseURL}/update/${id}`, { completed: !isCompleted }) // Ensure `completed` is sent
+      .put(
+        `${baseURL}/update/${id}`,
+        { completed: !isCompleted },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then(() => {
-        console.log("Task updated:", !isCompleted);
         setIsCompleted(!isCompleted);
         setUpdateUI((prevState) => !prevState);
       })
@@ -34,10 +42,14 @@ const ToDo = ({
 
   // ✅ Delete Task
   const deleteTodo = () => {
+    const token = localStorage.getItem("token");
     axios
-      .delete(`${baseURL}/delete/${id}`)
+      .delete(`${baseURL}/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then(() => {
-        console.log("Task deleted!");
         setUpdateUI((prevState) => !prevState);
       })
       .catch((err) => console.error("Error deleting task:", err));
@@ -55,31 +67,30 @@ const ToDo = ({
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        border: "1px solid #ddd",
+        border: "3px solid #ddd",
         padding: "12px",
         marginBottom: "12px",
         borderRadius: "6px",
-        background: isCompleted ? "#d4edda" : "#fff",
+        background: isCompleted ? "#d4edda" : "transparent",
         boxShadow: "2px 2px 5px rgba(0,0,0,0.1)",
         transition: "0.3s",
       }}
     >
       {/* ✅ Checkbox for Marking as Done */}
-      <input
-        type="checkbox"
-        checked={isCompleted || false} // ✅ Ensure `false` if undefined
-        onChange={markAsDone}
-        style={{ cursor: "pointer", marginRight: "10px" }}
-      />
+      <label className="flex items-center space-x-2 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={isCompleted || false}
+          onChange={markAsDone}
+          className="appearance-none w-[15px] h-[15px] cursor-pointer mr-4 border border-white rounded-sm checked:bg-blue-500 checked:border-transparent focus:outline-none transition"
+        />
+      </label>
 
       {/* Task Text */}
       <span
-        style={{
-          textDecoration: isCompleted ? "line-through" : "none",
-          color: isCompleted ? "gray" : "black",
-          fontSize: "16px",
-          flex: 1,
-        }}
+        className={`mb-[2px] text-[20px] flex-1  ${
+          isCompleted ? "line-through text-gray-400" : "text-white"
+        }`}
       >
         {todo}
       </span>
@@ -91,8 +102,8 @@ const ToDo = ({
           onClick={updateTodo}
           style={{
             cursor: "pointer",
-            height: "22px",
-            width: "22px",
+            height: "25px",
+            width: "25px",
             color: "#007bff",
           }}
         />
@@ -103,8 +114,8 @@ const ToDo = ({
           onClick={deleteTodo}
           style={{
             cursor: "pointer",
-            height: "22px",
-            width: "22px",
+            height: "25px",
+            width: "25px",
             color: "red",
           }}
         />
