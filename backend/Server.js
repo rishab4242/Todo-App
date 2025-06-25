@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 
 const cors = require("cors");
 const routes = require("./routes/todoRoutes");
+const userRoutes = require("./routes/UserRoutes");
 
 const path = require("path");
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api", routes);
+app.use("/api", userRoutes);
 
 
 

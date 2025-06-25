@@ -1,9 +1,17 @@
 const mongoose = require("mongoose");
 
+
 const TodoSchema = new mongoose.Schema({
-  todo: { type: String, required: true },
-  completed: { type: Boolean, default: false }, // ✅ Ensure completed field exists
+  todo: String,
+  completed: {
+    type: Boolean,
+    default: false,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
-const Todo = mongoose.model("Todo", TodoSchema);
-module.exports = Todo;
+module.exports = mongoose.model("Todo", TodoSchema);

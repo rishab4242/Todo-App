@@ -2,62 +2,60 @@ const TodoModel = require("../models/TodoModel");
 
 module.exports.getTodos = async (req, res) => {
   try {
-    const todos = await TodoModel.find(); // Fetch all todos including completed status
+    const todos = await TodoModel.find({ userId: req.userId }); // ✅ Filter by user
     res.json(todos);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch todos" });
   }
 };
 
-module.exports.saveToDo = (req, res) => {
+module.exports.saveToDo = async (req, res) => {
   const { todo } = req.body;
 
-  TodoModel.create({ todo })
-    .then((data) => {
-      res.status(201).send(data);
-    })
-    .catch((err) => {
-      res.send({ error: err, message: "something went wrong" });
+  try {
+    const newTodo = await TodoModel.create({
+      todo,
+      userId: req.userId, // ✅ Must be set
     });
+    res.status(201).json(newTodo);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 module.exports.updateToDo = async (req, res) => {
   const { id } = req.params;
-  const { completed } = req.body;
-
-  console.log("🔵 Received Payload in Backend:", req.body); // Debugging
-
-  if (!id || completed === undefined) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
+  const { todo, completed } = req.body;
 
   try {
-    const updatedTask = await TodoModel.findByIdAndUpdate(
-      req.params.id,
-      { $set: { todo: req.body.todo, completed: req.body.completed } }, // ✅ Ensure "completed" is updated
-      { new: true }
-    );
+    const task = await TodoModel.findOne({ _id: id, userId: req.userId }); // ✅ Secure lookup
+    if (!task) return res.status(404).json({ message: "Todo not found" });
 
-    if (!updatedTask) {
-      return res.status(404).json({ error: "Task not found" });
-    }
+    task.todo = todo ?? task.todo;
+    task.completed = completed ?? task.completed;
+    await task.save();
 
-    console.log("✅ Task Updated:", updatedTask);
-    res.json({ message: "Task updated successfully", updatedTask });
-  } catch (error) {
-    console.error("❌ Error updating task:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(200).json({ message: "Todo updated", task });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-module.exports.deleteToDo = (req, res) => {
+module.exports.deleteToDo = async (req, res) => {
   const { id } = req.params;
 
-  TodoModel.findByIdAndDelete(id)
-    .then(() => {
-      res.send("deleted successfully");
-    })
-    .catch((err) => {
-      res.send({ error: err, message: "Failed to delete" });
-    });
+  try {
+    const task = await TodoModel.findOneAndDelete({
+      _id: id,
+      userId: req.userId,
+    }); // ✅ Secure deletion
+    if (!task)
+      return res
+        .status(404)
+        .json({ message: "Todo not found or unauthorized" });
+
+    res.status(200).json({ message: "Todo deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
