@@ -78,7 +78,7 @@ const TodoPage = () => {
           />
           <button
             type="submit"
-            className="w-[120px] bg-transparent hover:bg-blue-700 text-white px-5 py-2 rounded-md text-base transition duration-300 shadow-lg"
+            className="w-[120px] bg-transparent hover:bg-blue-700 text-white px-5 py-2 rounded-md text-sm transition duration-300 shadow-lg"
             style={{ border: "3px solid #ddd" }}
           >
             Add Todo

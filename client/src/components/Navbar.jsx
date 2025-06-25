@@ -65,7 +65,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   return (
     <div className="p-4 text-white fixed top-0 z-50 flex justify-between items-center border-none outline-none w-full">
       <h2
-        className="md:text-2xl text-xl font-bold cursor-pointer hover:text-blue-400 md:ml-4 transition-colors duration-200"
+        className="md:text-2xl text-lg font-bold cursor-pointer hover:text-blue-400 md:ml-4 transition-colors duration-200"
         onClick={() => navigate("/")}
       >
         My Todo App
@@ -74,7 +74,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
         {isLoggedIn ? (
           <button
             onClick={handleLogout}
-            className="bg-red-500 px-4 py-2 rounded-lg relative md:right-[12px] max-sm:left-[7px] hover:bg-red-600 transition-all duration-200 transform hover:scale-105 font-medium"
+            className="bg-red-500 px-4 py-2 rounded-lg relative md:right-[12px] max-sm:left-[5px] hover:bg-red-600 transition-all duration-200 transform hover:scale-105 font-medium"
           >
             Logout
           </button>
@@ -82,13 +82,13 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
           <>
             <Link
               to="/login"
-              className="hover:text-blue-400 transition-colors duration-200 font-medium text-lg md:text-xl relative right-[40px] max-sm:left-[5px]"
+              className="hover:text-blue-400 transition-colors duration-200 font-medium text-base md:text-xl relative right-[40px] max-sm:left-[5px]"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="hover:text-blue-400 transition-colors duration-200 font-medium text-lg md:text-xl relative right-[10px] max-sm:left-[5px]"
+              className="hover:text-blue-400 transition-colors duration-200 font-medium text-base md:text-xl relative right-[10px] max-sm:left-[5px]"
             >
               Sign Up
             </Link>
