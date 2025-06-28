@@ -31,7 +31,7 @@ function App() {
   if (isLoggedIn === null) return null;
 
   return (
-    <Router>
+    <>
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
         <Route
@@ -68,7 +68,7 @@ function App() {
           fontWeight: "bold",
         }}
       />
-    </Router>
+      </>
   );
 }
 
