@@ -1,20 +1,13 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { viteStaticCopy } from 'vite-plugin-static-copy'; // ✅ plugin import
+// vite.config.js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  plugins: [
-    react(),
-    viteStaticCopy({
-      targets: [
-        {
-          src: 'public/_redirects',  // ✅ source path
-          dest: '.'                  // ✅ destination is root of build
-        }
-      ]
-    })
-  ],
+  plugins: [react()],
+  base: '/', // 👈 ये बहुत जरूरी है अगर आपने custom base path यूज़ किया हो तो '/' ही रखें
   build: {
-    outDir: 'build'
-  }
-});
+    rollupOptions: {
+      input: '/index.html',
+    },
+  },
+})

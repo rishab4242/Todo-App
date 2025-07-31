@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { isTokenExpired } from "./utils/checkToken";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Signup from "./pages/Signup";
