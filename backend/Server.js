@@ -1,43 +1,42 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-
 const cors = require("cors");
-const routes = require("./routes/todoRoutes");
-const userRoutes = require("./routes/UserRoutes");
-
 const path = require("path");
 
+const routes = require("./routes/todoRoutes");
+const userRoutes = require("./routes/UserRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-//Middleware
-
-app.use(cors({
-  origin: "https://todo-app-fronted.onrender.com"
-}));
-
-app.use(express.static(path.join(__dirname, 'dist'))); // Or build
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
+app.use(
+  cors({
+    origin: "https://todo-app-fronted.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
-app.use(cors());
 
 app.use("/api", routes);
 app.use("/api", userRoutes);
 
+app.use(express.static(path.join(__dirname, "dist")));
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected..."))
-  .catch((err) => console.log(err));
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ MongoDB Connected..."))
+  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}...`);
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
