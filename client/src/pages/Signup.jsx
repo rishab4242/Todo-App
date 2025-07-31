@@ -44,7 +44,7 @@ const SuccessModal = ({ onClose }) => {
       `}</style>
 
       <div
-        className={`fixed inset-0 flex items-center justify-center bg-gray-200 transition-all duration-500 z-50 px-4 ${
+        className={`fixed inset-0 flex items-center justify-center bg-gradient-to-br from-gray-800 via-gray-900 to-black transition-all duration-500 z-50 px-4 ${
           mounted ? "bg-opacity-100" : "bg-opacity-0"
         }`}
       >
@@ -53,8 +53,11 @@ const SuccessModal = ({ onClose }) => {
             mounted ? "scale-100 opacity-100" : "scale-75 opacity-0"
           }`}
         >
-          {/* Green Header Section */}
-          <div className="bg-green-500 md:px-8 px-20 py-12 text-white">
+          {/* Background Pattern - matching signup form */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-50 to-transparent rounded-full -mr-16 -mt-16"></div>
+
+          {/* Blue-Purple Gradient Header Section */}
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 md:px-8 px-20 py-12 text-white">
             <div className="relative mb-4">
               <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto border-3 border-white check-icon">
                 <svg
@@ -83,7 +86,7 @@ const SuccessModal = ({ onClose }) => {
           </div>
 
           {/* White Content Section */}
-          <div className="px-8 py-8">
+          <div className="px-8 py-8 relative z-10">
             <div className="success-content">
               <p className="text-gray-600 text-base leading-relaxed mb-8">
                 Congratulations, your account has been successfully created.
@@ -94,7 +97,7 @@ const SuccessModal = ({ onClose }) => {
             <div className="success-content">
               <button
                 onClick={onClose}
-                className="bg-green-500 hover:bg-green-600 text-white px-12 py-3 rounded-full font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl text-white px-12 py-3 rounded-full font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
               >
                 Continue
               </button>
