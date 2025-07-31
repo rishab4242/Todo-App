@@ -14,7 +14,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(null); // Start with null (unknown)
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,11 +27,12 @@ function App() {
     }
   }, []);
 
-  // 🟡 Wait until we know whether user is logged in or not
   if (isLoggedIn === null) return null;
 
   return (
-    <>
+    <Router>
+      {" "}
+      {/* ✅ Wrap everything in Router */}
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
         <Route path="/index.html" element={<Navigate to="/" />} />
@@ -51,10 +52,8 @@ function App() {
         />
         <Route path="/signup" element={<Signup />} />
       </Routes>
-
-      {/* Toast Container for notifications */}
       <ToastContainer
-        position="top-center" // Center position
+        position="top-center"
         autoClose={4000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -69,7 +68,7 @@ function App() {
           fontWeight: "bold",
         }}
       />
-    </>
+    </Router>
   );
 }
 
