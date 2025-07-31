@@ -34,6 +34,7 @@ function App() {
     <>
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
+        <Route path="/index.html" element={<Navigate to="/" />} />
         <Route
           path="/"
           element={isLoggedIn ? <TodoPage /> : <Navigate to="/login" />}
@@ -68,7 +69,7 @@ function App() {
           fontWeight: "bold",
         }}
       />
-      </>
+    </>
   );
 }
 
