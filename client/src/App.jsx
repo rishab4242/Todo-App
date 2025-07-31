@@ -42,6 +42,7 @@ function App() {
           }
         />
         <Route path="/signup" element={<Signup />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <ToastContainer
         position="top-center"
