@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { isTokenExpired } from "./utils/checkToken";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -30,12 +25,9 @@ function App() {
   if (isLoggedIn === null) return null;
 
   return (
-    <Router>
-      {" "}
-      {/* ✅ Wrap everything in Router */}
+    <>
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
-        <Route path="/index.html" element={<Navigate to="/" />} />
         <Route
           path="/"
           element={isLoggedIn ? <TodoPage /> : <Navigate to="/login" />}
@@ -68,7 +60,7 @@ function App() {
           fontWeight: "bold",
         }}
       />
-    </Router>
+    </>
   );
 }
 
