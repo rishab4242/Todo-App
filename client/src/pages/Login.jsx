@@ -84,7 +84,7 @@ const WelcomeModal = ({ onClose }) => {
             <div className="welcome-content">
               <button
                 onClick={onClose}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl text-white px-12 py-3 rounded-full font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
+                className="bg-gradient-to-r from-blue-600 to-purple-500 hover:shadow-xl text-white px-12 py-3 rounded-full font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
               >
                 Continue
               </button>
