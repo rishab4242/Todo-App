@@ -6,54 +6,10 @@ import Login from "./pages/Login";
 import TodoPage from "./pages/TodoPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { supabase } from "./supabaseClient";
+import { isTokenExpired } from "./utils/checkToken";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [todos, setTodos] = useState([]);
-  const [newTodo, setNewTodo] = useState("");
-
-  // Fetch todos from Supabase
-  const fetchTodos = async () => {
-    const { data, error } = await supabase
-      .from("todos")
-      .select("*")
-      .order("id", { ascending: true });
-    if (error) console.error(error);
-    else setTodos(data);
-  };
-
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
-  // Add new todo
-  const addTodo = async () => {
-    if (!newTodo.trim()) return;
-    const { data, error } = await supabase
-      .from("todos")
-      .insert([{ title: newTodo, completed: false }]);
-    if (error) console.error(error);
-    setNewTodo("");
-    fetchTodos();
-  };
-
-  // Toggle completed
-  const toggleTodo = async (id, currentStatus) => {
-    const { error } = await supabase
-      .from("todos")
-      .update({ completed: !currentStatus })
-      .eq("id", id);
-    if (error) console.error(error);
-    fetchTodos();
-  };
-
-  // Delete todo
-  const deleteTodo = async (id) => {
-    const { error } = await supabase.from("todos").delete().eq("id", id);
-    if (error) console.error(error);
-    fetchTodos();
-  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
