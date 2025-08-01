@@ -61,42 +61,6 @@ function App() {
           fontWeight: "bold",
         }}
       />
-      <div style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
-        <h2>📝 Supabase Todo App</h2>
-        <input
-          type="text"
-          value={newTodo}
-          placeholder="Add todo..."
-          onChange={(e) => setNewTodo(e.target.value)}
-        />
-        <button onClick={addTodo}>Add</button>
-
-        <ul>
-          {todos.map((todo) => (
-            <li key={todo.id} style={{ margin: "10px 0" }}>
-              <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={() => toggleTodo(todo.id, todo.completed)}
-              />
-              <span
-                style={{
-                  textDecoration: todo.completed ? "line-through" : "none",
-                  marginLeft: "8px",
-                }}
-              >
-                {todo.title}
-              </span>
-              <button
-                onClick={() => deleteTodo(todo.id)}
-                style={{ marginLeft: "10px" }}
-              >
-                ❌
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
     </>
   );
 }
